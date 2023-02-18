@@ -1,0 +1,16 @@
+[package]
+name = "learn-rust-webserver-chapter-20"
+version = "0.1.0"
+authors = ["epilif3sotnas <filipesantos1999@hotmail.com>"]
+edition = "2021"
+description = "Learn Rust with Rust book - webserver from chapter 20."
+readme = "README.md"
+repository = "https://github.com/epilif3sotnas/learn-rust-webserver-chapter-20"
+license = "Apache-2.0"
+keywords = ["learning", "Rust", "Book", "Webserver"]
+publish = false
+
+
+[[bin]]
+name = "learn-rust-webserver-chapter-20"
+path = "src/main.rs"
