@@ -26,4 +26,11 @@ fn handle_connection (mut stream: TcpStream) {
                             .collect();
 
     println!("Got HTTP request: {:?}", http_request);
+
+    let message = String::from("Hello!\nHi from Rust programming language.");
+    let size = message.len();
+
+    let response = format!("HTTP/1.1 200 OK\r\nContent-Length: {size}\r\n\r\n{message}");
+
+    stream.write_all(response.as_bytes()).unwrap();
 }
