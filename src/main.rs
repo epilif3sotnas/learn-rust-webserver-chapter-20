@@ -13,7 +13,6 @@ use crate::methods::default_path::{
 };
 
 const HTTP_VERSIONS: [&'static str; 3] = ["1", "1.1", "2"];
-const HTTP_VERBS: [&'static str; 4] = ["GET", "POST", "PUT", "DELETE"];
 const HTTP_PROTOCOL: &'static str = "HTTP";
 
 
@@ -43,19 +42,14 @@ fn handle_connection (mut stream: TcpStream) {
 
     let response = check_request(http_request);
 
-    // let message = String::from("Hello!\nHi from Rust programming language.");
-    // let size = message.len();
-
-    // let response = format!("HTTP/1.1 200 OK\r\nContent-Length: {size}\r\n\r\n{message}");
-
-    stream.write_all(response).unwrap_or_else(|err| {
+    stream.write_all(response.as_bytes()).unwrap_or_else(|err| {
         println!("Error: {:?}", err);
     });
 }
 
-fn check_request (request: Vec<String>) -> &'static [u8] {
+fn check_request (request: Vec<String>) -> String {
     if request.len() <= 0 {
-        return "HTTP/1.1 400 BAD REQUEST\r\n\r\n".as_bytes();
+        return String::from("HTTP/1.1 400 BAD REQUEST\r\n\r\n");
     }
 
     let req = &request[0];
@@ -63,31 +57,31 @@ fn check_request (request: Vec<String>) -> &'static [u8] {
     let req_divided: Vec<&str> = req.split(" ").collect();
 
     if req_divided.len() != 3 || !req_divided[2].contains(HTTP_PROTOCOL) {
-        return "HTTP/1.1 400 BAD REQUEST\r\n\r\n".as_bytes();
+        return String::from("HTTP/1.1 400 BAD REQUEST\r\n\r\n");
     }
 
     let mut contain_version = false;
     for version in HTTP_VERSIONS {
-        if req_divided.contains(&version) {
+        if req_divided[2].contains(&version) {
             contain_version = true;
             break;
         }
     }
 
     if !contain_version {
-        return "HTTP/1.1 505 HTTP VERSION NOT SUPPORTED\r\n\r\n".as_bytes(); 
+        return String::from("HTTP/1.1 505 HTTP VERSION NOT SUPPORTED\r\n\r\n"); 
     }
 
     return distribute_with_verb_path(req_divided[0], req_divided[1]);
 }
 
-fn distribute_with_verb_path (verb: &str, path: &str) -> &'static [u8] {
+fn distribute_with_verb_path (verb: &str, path: &str) -> String {
     if verb.is_empty() || path.is_empty() {
-        return "HTTP/1.1 400 BAD REQUEST\r\n\r\n".as_bytes();
+        return String::from("HTTP/1.1 400 BAD REQUEST\r\n\r\n");
     }
 
     if path != "/" {
-        return "HTTP/1.1 404 NOT FOUND\r\n\r\n".as_bytes();
+        return String::from("HTTP/1.1 404 NOT FOUND\r\n\r\n");
     }
 
     match verb {
@@ -95,6 +89,6 @@ fn distribute_with_verb_path (verb: &str, path: &str) -> &'static [u8] {
         "POST" => return post_method(),
         "PUT" => return put_method(),
         "DELETE" => return delete_method(),
-        _ => return "HTTP/1.1 404 NOT FOUND\r\n\r\n".as_bytes()
+        _ => return String::from("HTTP/1.1 404 NOT FOUND\r\n\r\n")
     }
 }
