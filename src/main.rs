@@ -12,6 +12,9 @@ use crate::methods::default_path::{
     delete_method
 };
 
+// external
+use threadpool::ThreadPool;
+
 const HTTP_VERSIONS: [&'static str; 3] = ["1", "1.1", "2"];
 const HTTP_PROTOCOL: &'static str = "HTTP";
 
@@ -19,12 +22,17 @@ const HTTP_PROTOCOL: &'static str = "HTTP";
 fn main () -> std::io::Result<()> {
     let listener = TcpListener::bind("localhost:8080")?;
     println!("Listening: {:?}", listener.local_addr()?);
+    
+    let pool = ThreadPool::new(3);
 
     for stream in listener.incoming() {
         println!("Stream: {:?}", stream);
         println!("Something connected");
 
-        handle_connection(stream?);
+        let tcp_stream = stream?;
+        pool.execute(|| {
+            handle_connection(tcp_stream);
+        });
     }
     Ok(())
 }

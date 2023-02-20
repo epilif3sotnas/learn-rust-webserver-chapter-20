@@ -11,6 +11,9 @@ keywords = ["learning", "Rust", "Book", "Webserver"]
 publish = false
 
 
+[dependencies]
+threadpool = "~1"
+
 [[bin]]
 name = "learn-rust-webserver-chapter-20"
 path = "src/main.rs"
