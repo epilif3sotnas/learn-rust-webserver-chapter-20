@@ -51,8 +51,10 @@ fn handle_connection (mut stream: TcpStream) {
     let response = check_request(http_request);
 
     stream.write_all(response.as_bytes()).unwrap_or_else(|err| {
-        println!("Error: {:?}", err);
+        eprintln!("Error: {:?}", err);
     });
+
+    stream.flush().unwrap_or_else(|err| eprintln!("Error: {:?}", err));
 }
 
 fn check_request (request: Vec<String>) -> String {
