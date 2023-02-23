@@ -29,3 +29,28 @@ pub fn delete_method() -> String {
     let response = format!("HTTP/1.1 200 OK\r\nContent-Length: {size}\r\n\r\n{message}");
     return response;
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn unit_get_method__valid() {
+
+    }
+
+    #[test]
+    fn unit_post_method__valid() {
+
+    }
+
+    #[test]
+    fn unit_put_method__valid() {
+
+    }
+
+    #[test]
+    fn unit_delete_method__valid() {
+
+    }
+}
