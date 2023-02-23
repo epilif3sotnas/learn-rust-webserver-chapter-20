@@ -98,3 +98,53 @@ fn distribute_with_verb_path(verb: &str, path: &str) -> String {
         _ => return String::from("HTTP/1.1 404 NOT FOUND\r\n\r\n"),
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn unit_check_request__empty_vector() {
+
+    }
+
+    #[test]
+    fn unit_check_request__elements_with_no_spaces() {
+        
+    }
+
+    #[test]
+    fn unit_check_request__elements_with_four_spaces() {
+        
+    }
+
+    #[test]
+    fn unit_check_request__no_http() {
+        
+    }
+
+    #[test]
+    fn unit_check_request__invalid_http_version() {
+        
+    }
+
+    #[test]
+    fn unit_distribute_with_verb_path__empty_verb() {
+        
+    }
+
+    #[test]
+    fn unit_distribute_with_verb_path__empty_path() {
+        
+    }
+
+    #[test]
+    fn unit_distribute_with_verb_path__invalid_path() {
+        
+    }
+
+    #[test]
+    fn unit_distribute_with_verb_path__invalid__http_verb() {
+        
+    }
+}
