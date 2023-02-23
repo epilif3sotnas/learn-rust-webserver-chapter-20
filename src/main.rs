@@ -31,9 +31,11 @@ fn main() -> std::io::Result<()> {
     Ok(())
 }
 
+// ### TODO - Think about send back errors ###
 fn handle_connection(mut stream: TcpStream) {
     let buf_reader = BufReader::new(&mut stream);
 
+    // ### TODO - robust line unwrap ###
     let http_request: Vec<_> = buf_reader
         .lines()
         .map(|line| line.unwrap())
