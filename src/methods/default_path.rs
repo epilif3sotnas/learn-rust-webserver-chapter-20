@@ -40,7 +40,7 @@ mod tests {
         let size = message.len();
 
         let result = get_method();
-    
+
         let expected = format!("HTTP/1.1 200 OK\r\nContent-Length: {size}\r\n\r\n{message}");
 
         assert_eq!(result, expected);
@@ -52,7 +52,7 @@ mod tests {
         let size = message.len();
 
         let result = post_method();
-    
+
         let expected = format!("HTTP/1.1 200 OK\r\nContent-Length: {size}\r\n\r\n{message}");
 
         assert_eq!(result, expected);
@@ -64,7 +64,7 @@ mod tests {
         let size = message.len();
 
         let result = put_method();
-    
+
         let expected = format!("HTTP/1.1 200 OK\r\nContent-Length: {size}\r\n\r\n{message}");
 
         assert_eq!(result, expected);
@@ -76,7 +76,7 @@ mod tests {
         let size = message.len();
 
         let result = delete_method();
-    
+
         let expected = format!("HTTP/1.1 200 OK\r\nContent-Length: {size}\r\n\r\n{message}");
 
         assert_eq!(result, expected);
