@@ -35,22 +35,22 @@ mod tests {
     use super::*;
 
     #[test]
-    fn unit_get_method__valid() {
+    fn unit__get_method__valid() {
 
     }
 
     #[test]
-    fn unit_post_method__valid() {
+    fn unit__post_method__valid() {
 
     }
 
     #[test]
-    fn unit_put_method__valid() {
+    fn unit__put_method__valid() {
 
     }
 
     #[test]
-    fn unit_delete_method__valid() {
+    fn unit__delete_method__valid() {
 
     }
 }

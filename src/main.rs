@@ -104,47 +104,106 @@ mod tests {
     use super::*;
 
     #[test]
-    fn unit_check_request__empty_vector() {
+    fn unit__check_request__empty_vector() {
+        let request: Vec<String> = Vec::new();
 
+        let result = check_request(request);
+
+        let expected = String::from("HTTP/1.1 400 BAD REQUEST\r\n\r\n");
+
+        assert_eq!(result, expected);
     }
 
     #[test]
-    fn unit_check_request__elements_with_no_spaces() {
+    fn unit__check_request__elements_with_no_spaces() {
+        let request: Vec<String> = vec![String::from("GET/HTTP/1.1")];
+
+        let result = check_request(request);
+
+        let expected = String::from("HTTP/1.1 400 BAD REQUEST\r\n\r\n");
+
+        assert_eq!(result, expected);
+    }
+
+    #[test]
+    fn unit__check_request__elements_with_four_spaces() {
+        let request: Vec<String> = vec![String::from("GET / HTTP/ 1.1")];
+
+        let result = check_request(request);
+
+        let expected = String::from("HTTP/1.1 400 BAD REQUEST\r\n\r\n");
+
+        assert_eq!(result, expected);
+    }
+
+    #[test]
+    fn unit__check_request__no_http() {
+        let request: Vec<String> = vec![String::from("GET / CoAP/ 1.1")];
+
+        let result = check_request(request);
+
+        let expected = String::from("HTTP/1.1 400 BAD REQUEST\r\n\r\n");
+
+        assert_eq!(result, expected);
+    }
+
+    #[test]
+    fn unit__check_request__invalid_http_version() {
+        let request: Vec<String> = vec![String::from("GET / HTTP/3")];
+
+        let result = check_request(request);
+
+        let expected = String::from("HTTP/1.1 505 HTTP VERSION NOT SUPPORTED\r\n\r\n");
+
+        assert_eq!(result, expected);
+    }
+
+    #[test]
+    fn unit__distribute_with_verb_path__empty_verb() {
+        let verb = "";
+        let path = "/";
+
+        let result = distribute_with_verb_path(verb, path);
+
+        let expected = String::from("HTTP/1.1 400 BAD REQUEST\r\n\r\n");
+
+        assert_eq!(result, expected);
         
     }
 
     #[test]
-    fn unit_check_request__elements_with_four_spaces() {
-        
+    fn unit__distribute_with_verb_path__empty_path() {
+        let verb = "GET";
+        let path = "";
+
+        let result = distribute_with_verb_path(verb, path);
+
+        let expected = String::from("HTTP/1.1 400 BAD REQUEST\r\n\r\n");
+
+        assert_eq!(result, expected);
     }
 
     #[test]
-    fn unit_check_request__no_http() {
-        
+    fn unit__distribute_with_verb_path__invalid_path() {
+        let verb = "GET";
+        let path = "/invalid";
+
+        let result = distribute_with_verb_path(verb, path);
+
+        let expected = String::from("HTTP/1.1 404 NOT FOUND\r\n\r\n");
+
+        assert_eq!(result, expected);
     }
 
     #[test]
-    fn unit_check_request__invalid_http_version() {
-        
-    }
+    fn unit__distribute_with_verb_path__invalid_http_verb() {
+        let verb = "INVALID";
+        let path = "/";
 
-    #[test]
-    fn unit_distribute_with_verb_path__empty_verb() {
-        
-    }
+        let result = distribute_with_verb_path(verb, path);
 
-    #[test]
-    fn unit_distribute_with_verb_path__empty_path() {
-        
-    }
+        let expected = String::from("HTTP/1.1 404 NOT FOUND\r\n\r\n");
 
-    #[test]
-    fn unit_distribute_with_verb_path__invalid_path() {
-        
-    }
-
-    #[test]
-    fn unit_distribute_with_verb_path__invalid__http_verb() {
-        
+        assert_eq!(result, expected);
     }
 }
