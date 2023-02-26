@@ -170,7 +170,6 @@ mod tests {
         let expected = String::from("HTTP/1.1 400 BAD REQUEST\r\n\r\n");
 
         assert_eq!(result, expected);
-        
     }
 
     #[test]
@@ -205,6 +204,58 @@ mod tests {
         let result = distribute_with_verb_path(verb, path);
 
         let expected = String::from("HTTP/1.1 404 NOT FOUND\r\n\r\n");
+
+        assert_eq!(result, expected);
+    }
+
+    #[test]
+    fn integration__check_path__get_method_valid() {
+        let request: Vec<String> = vec![String::from("GET / HTTP/1.1")];
+        let message = String::from("You did a GET\nHello!\nHi from Rust programming language.");
+        let size = message.len();
+
+        let result = check_request(request);
+
+        let expected = format!("HTTP/1.1 200 OK\r\nContent-Length: {size}\r\n\r\n{message}");
+
+        assert_eq!(result, expected);
+    }
+
+    #[test]
+    fn integration__check_path__post_method_valid() {
+        let request: Vec<String> = vec![String::from("POST / HTTP/1.1")];
+        let message = String::from("You did a POST\nHello!\nHi from Rust programming language.");
+        let size = message.len();
+
+        let result = check_request(request);
+
+        let expected = format!("HTTP/1.1 200 OK\r\nContent-Length: {size}\r\n\r\n{message}");
+
+        assert_eq!(result, expected);
+    }
+
+    #[test]
+    fn integration__check_path__put_method_valid() {
+        let request: Vec<String> = vec![String::from("PUT / HTTP/1.1")];
+        let message = String::from("You did a PUT\nHello!\nHi from Rust programming language.");
+        let size = message.len();
+
+        let result = check_request(request);
+
+        let expected = format!("HTTP/1.1 200 OK\r\nContent-Length: {size}\r\n\r\n{message}");
+
+        assert_eq!(result, expected);
+    }
+
+    #[test]
+    fn integration__check_path__delete_method_valid() {
+        let request: Vec<String> = vec![String::from("DELETE / HTTP/1.1")];
+        let message = String::from("You did a DELETE\nHello!\nHi from Rust programming language.");
+        let size = message.len();
+
+        let result = check_request(request);
+
+        let expected = format!("HTTP/1.1 200 OK\r\nContent-Length: {size}\r\n\r\n{message}");
 
         assert_eq!(result, expected);
     }
